@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Johannes Theunissen</title>
+    <meta name="description" content="Explore my portfolio of software engineering projects including web applications, AI systems, and mobile apps built with modern technologies.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .tech-tag {
+            transition: all 0.2s ease;
+        }
+        
+        .tech-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="./resources/logo.png" alt="JT Logo" class="h-8 w-8 mr-3">
+                    <span class="text-xl font-bold text-slate-800">Johannes Theunissen</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-slate-600 hover:text-blue-600 font-medium">Home</a>
+                    <a href="about.html" class="nav-link text-slate-600 hover:text-blue-600 font-medium">About</a>
+                    <a href="projects.html" class="nav-link active text-slate-600 hover:text-blue-600 font-medium">Projects</a>
+                    <a href="contact.html" class="nav-link text-slate-600 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-blue-600">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-slate-600 hover:text-blue-600">Home</a>
+                <a href="about.html" class="block px-3 py-2 text-slate-600 hover:text-blue-600">About</a>
+                <a href="projects.html" class="block px-3 py-2 text-slate-600 hover:text-blue-600">Projects</a>
+                <a href="contact.html" class="block px-3 py-2 text-slate-600 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold text-slate-800 mb-6">My Projects</h1>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                    A collection of my software engineering projects showcasing skills in web development, AI and mobile apps 
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <!-- Project 1: Analytics Dashboard -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-lg fade-in" data-category="web" data-project="analytics-dashboard">
+                    <div class="h-48 overflow-hidden">
+                        <img src="./resources/project-1.jpg" alt="Analytics Dashboard" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">AGRI-CALL</h3>
+                        <p class="text-slate-600 mb-4">C# application with real-time data visualization and user management for business intelligence.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">C#</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://github.com/Jt8021/AGRI-CALL" class="text-slate-600 hover:text-slate-800 font-medium">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-lg fade-in" data-category="mobile" data-project="task-manager">
+                    <div class="h-48 overflow-hidden">
+                        <img src="./resources/project-2.jpg" alt="Task Management App" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Fitness_Webpage</h3>
+                        <p class="text-slate-600 mb-4">Web application to track your fitness journey</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">HTML</span>
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">CSS</span>
+                            <span class="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full">JavaScript</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://github.com/Jt8021/Fitness_Webpage" class="text-slate-600 hover:text-slate-800 font-medium">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-lg fade-in" data-category="web" data-project="ecommerce-platform">
+                    <div class="h-48 overflow-hidden">
+                        <img src="./resources/project-3.jpg" alt="E-Commerce Platform" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Echo-Me</h3>
+                        <p class="text-slate-600 mb-4">A South-African Sign Language Interpreter Web APP, developed with Python.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Python</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://github.com/Quinny-dev/Echo-Me" class="text-slate-600 hover:text-slate-800 font-medium">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-lg fade-in" data-category="ai" data-project="ml-platform">
+                    <div class="h-48 overflow-hidden">
+                        <img src="./resources/project-4.jpg" alt="Machine Learning Platform" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Lpr_solver</h3>
+                        <p class="text-slate-600 mb-4">C# application capable of solving linear programing problems </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">C#</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://github.com/Jt8021/Lpr_solver" class="text-slate-600 hover:text-slate-800 font-medium">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5: -->
+                <div class="project-card bg-white rounded-xl overflow-hidden shadow-lg fade-in" data-category="cloud" data-project="cloud-infrastructure">
+                    <div class="h-48 overflow-hidden">
+                        <img src="./resources/project-5.jpg" alt="Cloud Infrastructure" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Student wellness managment</h3>
+                        <p class="text-slate-600 mb-4">Java application to book appointment for wellness checkups</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">Java</span>
+                            <span class="tech-tag px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">MongoDB</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://github.com/Jt8021/Student-wellness-managment-APP" class="text-slate-600 hover:text-slate-800 font-medium">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modals -->
+    <!-- Analytics Dashboard Modal -->
+    <div id="analytics-dashboard-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="p-8">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">Analytics Dashboard</h2>
+                <img src="./resources/project-1.jpg" alt="Analytics Dashboard" class="w-full h-64 object-cover rounded-lg mb-6">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-800 mb-3">Project Overview</h3>
+                        <p class="text-slate-600 mb-4">
+                            A comprehensive business intelligence dashboard that provides real-time analytics and data visualization for decision-making. The platform includes user management, customizable widgets, and interactive charts.
+                        </p>
+                        <h4 class="font-semibold text-slate-800 mb-2">Key Features:</h4>
+                        <ul class="text-slate-600 space-y-1 mb-4">
+                            <li>• Real-time data visualization</li>
+                            <li>• Interactive charts and graphs</li>
+                            <li>• User authentication and roles</li>
+                            <li>• Customizable dashboard widgets</li>
+                            <li>• Data export functionality</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-800 mb-3">Technical Details</h3>
+                        <h4 class="font-semibold text-slate-800 mb-2">Technologies Used:</h4>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">React</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">Node.js</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">MongoDB</span>
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">Chart.js</span>
+                            <span class="px-3 py-1 bg-red-100 text-red-800 text-sm rounded-full">Express</span>
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">JWT</span>
+                        </div>
+                        <h4 class="font-semibold text-slate-800 mb-2">Development Period:</h4>
+                        <p class="text-slate-600 mb-4">3 months (Part-time)</p>
+                        <h4 class="font-semibold text-slate-800 mb-2">Team Size:</h4>
+                        <p class="text-slate-600 mb-4">Solo project</p>
+                        <div class="flex gap-3">
+                            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">Live Demo</a>
+                            <a href="#" class="border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg font-medium">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <img src="./resources/logo.png" alt="JT Logo" class="h-8 w-8 mr-3">
+                    <span class="text-xl font-bold">Johannes Theunissen</span>
+                </div>
+                <p class="text-slate-400 mb-4">
+                    Software Engineering Student | AI & Web Dev Enthusiast
+                </p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="https://github.com/Jt8021" class="text-slate-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://linkedin.com/in/johannes-theunissen-266009256" class="text-slate-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:jttheun8021@gmail.com" class="text-slate-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-slate-500 text-sm">
+                    © 2024 Johannes Theunissen. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
